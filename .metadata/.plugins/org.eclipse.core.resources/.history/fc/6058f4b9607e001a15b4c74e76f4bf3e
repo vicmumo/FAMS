@@ -1,0 +1,183 @@
+package com.tamarix.compliance.portlet;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.ProcessAction;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.counter.kernel.service.CounterLocalService;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.tamarix.compliance.constants.CompliancePortletKeys;
+import com.tamarix.compliance.model.Compliance;
+import com.tamarix.compliance.service.ComplianceLocalService;
+
+/**
+ * @author VicMo
+ */
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.header-portlet-css=/css/main.css", "com.liferay.portlet.instanceable=true",
+		"javax.portlet.display-name=Compliance", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/view.jsp", "javax.portlet.name=" + CompliancePortletKeys.COMPLIANCE,
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+public class CompliancePortlet extends MVCPortlet {
+	private Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
+	@Reference
+	CounterLocalService counterLocalService;
+
+	@Reference
+	ComplianceLocalService complianceLocalService;
+
+	@ProcessAction(name = "addCompliance")
+	public void addCompliance(ActionRequest actionRequest, ActionResponse actionResponse) {
+		long complianceId = counterLocalService.increment(Compliance.class.getName());
+		/*
+		 * String firstName = ParamUtil.getString(actionRequest, "firstName"); String
+		 * lastName = ParamUtil.getString(actionRequest, "lastName"); String branchName
+		 * = ParamUtil.getString(actionRequest, "branchName"); String payrollNo =
+		 * ParamUtil.getString(actionRequest, "payrollNo"); String terminationReason =
+		 * ParamUtil.getString(actionRequest, "terminationReason"); String
+		 * terminationCode = ParamUtil.getString(actionRequest, "terminationCode");
+		 * String formerBranch = ParamUtil.getString(actionRequest, "formerBranch");
+		 */
+		String contractId = ParamUtil.getString(actionRequest, "contractId");
+		String entityId = ParamUtil.getString(actionRequest, "entityId");
+		String approvalDate = ParamUtil.getString(actionRequest, "approvalDate");
+		String comments = ParamUtil.getString(actionRequest, "comments");
+		String approverContractNumber = ParamUtil.getString(actionRequest, "approverContractNumber");
+		String agentVerdict = ParamUtil.getString(actionRequest, "agentVerdict");
+		String agentAction = ParamUtil.getString(actionRequest, "agentAction");
+		String processedFlag = ParamUtil.getString(actionRequest, "processedFlag");
+		String errorReason = ParamUtil.getString(actionRequest, "errorReason");
+		String assignmentStatus = ParamUtil.getString(actionRequest, "assignmentStatus");
+		String capacity = ParamUtil.getString(actionRequest, "capacity");
+		String positionId = ParamUtil.getString(actionRequest, "positionId");
+		String orgId = ParamUtil.getString(actionRequest, "orgId");
+		String historyStartDate = ParamUtil.getString(actionRequest, "historyStartDate");
+		String oldOrgId = ParamUtil.getString(actionRequest, "oldOrgId");
+		String oldPositionId = ParamUtil.getString(actionRequest, "oldPositionId");
+		String contractEffectiveEndDate = ParamUtil.getString(actionRequest, "contractEffectiveEndDate");
+		String applicationTye = ParamUtil.getString(actionRequest, "applicationTye");
+		String applicationCategory = ParamUtil.getString(actionRequest, "applicationCategory");
+		// test with this if it will show
+
+		Compliance compliance = complianceLocalService.createCompliance(complianceId);
+		/*
+		 * compliance.setComplianceId(complianceId); compliance.setFirstName(firstName);
+		 * compliance.setLastName(lastName); compliance.setBranchName(branchName);
+		 * compliance.setPayrollNo(payrollNo);
+		 * compliance.setTerminationReason(terminationReason);
+		 * compliance.setTerminationCode(terminationCode);
+		 * compliance.setFormerBranch(formerBranch);
+		 */
+		compliance.setContractId(contractId);
+		compliance.setEntityId(entityId);
+		compliance.setApprovalDate(approvalDate);
+		compliance.setComments(comments);
+		compliance.setApproverContractNumber(approverContractNumber);
+		compliance.setAgentVerdict(agentVerdict);
+		compliance.setAgentAction(agentAction);
+		compliance.setProcessedFlag(processedFlag);
+		compliance.setErrorReason(errorReason);
+		compliance.setAssignmentStatus(assignmentStatus);
+		compliance.setCapacity(capacity);
+		compliance.setPositionId(positionId);
+		compliance.setOrgId(orgId);
+		compliance.setHistoryStartDate(historyStartDate);
+		compliance.setOldOrgId(oldOrgId);
+		compliance.setOldPositionId(oldPositionId);
+		compliance.setContractEffectiveEndDate(contractEffectiveEndDate);
+		compliance.setApplicationTye(applicationTye);
+		compliance.setApplicationCategory(applicationCategory);
+
+		complianceLocalService.addCompliance(compliance);
+	}
+
+	@Override
+	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
+			throws IOException, PortletException {
+		// TODO Auto-generated method stub
+		// This is the one for all records
+		List<Compliance> complianceList = complianceLocalService.getCompliances(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		renderRequest.setAttribute("complianceList", complianceList);
+		// this is the one for first-stage-validated.jsp
+		List<Compliance> firstvalidatedList1 = complianceLocalService.getCompliances(QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS);
+		renderRequest.setAttribute("firstvalidatedList1", firstvalidatedList1);//
+		super.render(renderRequest, renderResponse);
+	}
+
+	@ProcessAction(name = "updateCompliance")
+	public void updateCompliance(ActionRequest actionRequest, ActionResponse actionResponse) {
+		long complianceId = ParamUtil.getLong(actionRequest, "complianceId", GetterUtil.DEFAULT_LONG);
+		/*
+		 * String firstName = ParamUtil.getString(actionRequest, "firstName",
+		 * GetterUtil.DEFAULT_STRING); String lastName =
+		 * ParamUtil.getString(actionRequest, "lastName", GetterUtil.DEFAULT_STRING);
+		 * String branchName = ParamUtil.getString(actionRequest, "branchName",
+		 * GetterUtil.DEFAULT_STRING); String payrollNo =
+		 * ParamUtil.getString(actionRequest, "payrollNo", GetterUtil.DEFAULT_STRING);
+		 * String terminationReason = ParamUtil.getString(actionRequest,
+		 * "terminationReason", GetterUtil.DEFAULT_STRING); String terminationCode =
+		 * ParamUtil.getString(actionRequest, "terminationCode",
+		 * GetterUtil.DEFAULT_STRING); String formerBranch =
+		 * ParamUtil.getString(actionRequest, "formerBranch",
+		 * GetterUtil.DEFAULT_STRING);
+		 */
+		/// approval 1st
+		String firstapprover = ParamUtil.getString(actionRequest, "firstapprover", GetterUtil.DEFAULT_STRING);
+		// second approver
+		String secondapprover = ParamUtil.getString(actionRequest, "secondapprover", GetterUtil.DEFAULT_STRING);
+
+		Compliance compliance = null;
+		try {
+			compliance = complianceLocalService.getCompliance(complianceId);
+		} catch (Exception e) {
+			log.error(e.getCause(), e);
+		}
+
+		if (Validator.isNotNull(compliance)) {
+			compliance.setFirstName(firstName);
+			compliance.setLastName(lastName);
+			compliance.setBranchName(branchName);
+			compliance.setPayrollNo(payrollNo);
+			compliance.setTerminationReason(terminationReason);
+			compliance.setTerminationCode(terminationCode);
+			compliance.setFormerBranch(formerBranch);
+
+			// first approver
+			compliance.setFirstapprover(firstapprover);
+
+			// Second approver
+			compliance.setSecondapprover(secondapprover);
+
+			complianceLocalService.updateCompliance(compliance);
+		}
+	}
+
+	@ProcessAction(name = "deleteCompliance")
+	public void deleteCompliance(ActionRequest actionRequest, ActionResponse actionResponse) {
+		long complianceId = ParamUtil.getLong(actionRequest, "complianceId", GetterUtil.DEFAULT_LONG);
+		try {
+			complianceLocalService.deleteCompliance(complianceId);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
+}

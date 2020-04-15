@@ -1,0 +1,3 @@
+INDEX VERSION 1.131
+E:\Tamarix\FAMS\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2053963520.index
+\compliance-portlet\src\main\java

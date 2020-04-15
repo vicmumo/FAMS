@@ -1,0 +1,18 @@
+<%@ include file="/init.jsp"%>
+
+<h3>testyy, final</h3>
+<portlet:defineObjects />
+
+<%
+	List<Compliance> firstvalidatedList1 = (List<Compliance>) request.getAttribute("firstvalidatedList1");
+%>
+<portlet:renderURL var="addComplianceRenderURL">
+	<portlet:param name="mvcPath" value="/new-compliance.jsp" />
+</portlet:renderURL>
+
+<div class="mb-5">
+	<a href="<%=addComplianceRenderURL%>"
+		class="btn  btn-primary btn-default"> <i
+		class="glyphicon glyphicon-plus"></i> Add Compliance new record.
+	</a>
+</div>

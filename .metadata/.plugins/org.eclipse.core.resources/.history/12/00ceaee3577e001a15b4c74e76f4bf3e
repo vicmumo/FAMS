@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder  package-path="com.tamarix.compliance">
+	<namespace>Compliance</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	<entity local-service="true" name="Compliance" remote-service="true" uuid="true">
+		<!-- PK fields -->
+		<column name="complianceId" primary="true" type="long" />
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="createdby" type="long" />
+        <column name="modifiedby" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<!-- Other fields -->
+		<column name="firstName" type="String" />
+		<column name="lastName" type="String" />
+		<column name="branchName" type="String" />
+		<column name="payrollNo" type="String" />
+		<column name="terminationReason" type="String" />
+		<column name="terminationCode" type="String" />
+		<column name="formerBranch" type="String" />
+
+		<!-- New fileds for Transfers and other Apps -->		
+		<column name="contractId" type="String" />
+		<column name="entityId" type="String" />
+		<column name="approvalDate" type="String" />
+		<column name="comments" type="String" />
+		<column name="approverContractNumber" type="String" />
+		<column name="agentVerdict" type="String" />
+		<column name="agentAction" type="String" />
+		<column name="processedFlag" type="String" />
+		<column name="errorReason" type="String" />
+		<column name="assignmentStatus" type="String" />
+		<column name="capacity" type="String" />
+		<column name="positionId" type="String" />
+		<column name="orgId" type="String" />
+		<column name="historyStartDate" type="String" />
+		<column name="oldOrgId" type="String" />
+		<column name="oldPositionId" type="String" />
+		<column name="contractEffectiveEndDate" type="String" />	
+		<column name="applicationTye" type="String" />
+		<column name="applicationCategory" type="String" />
+		<!--  End of New fields  -->
+		
+		<!-- Workflow fields -->
+        <!-- Resource -->
+        <column name="firstapprover" type="String"></column> <!--  approved or declined -->
+        <column name="secondapprover" type="String"></column> <!--  approved or declined -->      
+        
+	</entity>
+</service-builder>

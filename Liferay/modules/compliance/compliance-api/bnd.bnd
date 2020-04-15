@@ -1,0 +1,10 @@
+Bundle-Name: compliance-api
+Bundle-SymbolicName: com.tamarix.compliance.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.tamarix.compliance.exception,\
+	com.tamarix.compliance.model,\
+	com.tamarix.compliance.service,\
+	com.tamarix.compliance.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../compliance-service/service.xml

@@ -1,0 +1,5 @@
+package com.tamarix.compliance.service.persistence.impl;
+
+public class ComplianceFinderImpl {
+
+}

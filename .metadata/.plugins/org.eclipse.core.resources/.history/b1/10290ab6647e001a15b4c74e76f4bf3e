@@ -1,0 +1,32 @@
+<%@ include file="/init.jsp"%>
+
+<portlet:defineObjects />
+
+<%
+	List<Compliance> firstvalidatedList1 = (List<Compliance>) request.getAttribute("firstvalidatedList1");
+%>
+<portlet:renderURL var="addComplianceRenderURL">
+	<portlet:param name="mvcPath" value="/new-compliance.jsp" />
+</portlet:renderURL>
+
+<div class="mb-5">
+	<a href="<%=addComplianceRenderURL%>"
+		class="btn  btn-primary btn-default"> <i
+		class="glyphicon glyphicon-plus"></i> Apply for a Tranfer/Promotion.
+	</a>
+</div>
+<table class="table table-striped">
+<tr >
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Branch Name</th>
+        <th>Payroll No</th>
+        <th>Termination Reason</th>
+        <th>Termination Code</th>
+        <th>Former Branch</th>
+        <th>Contract id</th>
+        <th>Entity id</th>
+        <th>Approval Date</th>
+        <th colspan="2" style="width: 100px">Action</th>
+    </tr>
+</table>

@@ -1,0 +1,12 @@
+#
+#Wed Apr 15 01:40:48 EAT 2020
+classpath=<?xml version\="1.0" encoding\="UTF-8"?>\n<classpath>\n</classpath>\n
+buildScriptPath=build.gradle
+linkedResources=
+subprojectPaths=modules;modules/compliance;modules/compliance-portlet;modules/compliance/compliance-api;modules/compliance/compliance-service
+managedNatures=org.eclipse.jdt.core.javanature
+hasAutoBuildTasks=false
+gradleVersion=5.6.4
+buildDir=build
+managedBuilders=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><commands/>
+derivedResources=.gradle;build;modules/build;modules/compliance/build;modules/compliance-portlet/build;modules/compliance/compliance-api/build;modules/compliance/compliance-service/build

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="com.tamarix.compliance.service.impl.ComplianceLocalServiceImpl" id="com.tamarix.compliance.service.ComplianceLocalService" />
+	<bean class="com.tamarix.compliance.service.impl.ComplianceServiceImpl" id="com.tamarix.compliance.service.ComplianceService" />
+	<bean class="com.tamarix.compliance.service.persistence.impl.CompliancePersistenceImpl" id="com.tamarix.compliance.service.persistence.CompliancePersistence" parent="basePersistence" />
+	<bean class="com.tamarix.compliance.service.persistence.impl.ComplianceFinderImpl" id="com.tamarix.compliance.service.persistence.ComplianceFinder" parent="basePersistence" />
+</beans>

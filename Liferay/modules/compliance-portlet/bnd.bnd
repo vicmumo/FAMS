@@ -1,0 +1,4 @@
+Bundle-Name: compliance-portlet
+Bundle-SymbolicName: com.tamarix.compliance
+Bundle-Version: 1.0.0
+Export-Package: com.tamarix.compliance.constants
