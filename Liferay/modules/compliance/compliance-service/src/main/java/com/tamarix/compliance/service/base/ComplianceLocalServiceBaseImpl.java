@@ -50,6 +50,7 @@ import com.tamarix.compliance.model.Compliance;
 import com.tamarix.compliance.service.ComplianceLocalService;
 import com.tamarix.compliance.service.persistence.ComplianceFinder;
 import com.tamarix.compliance.service.persistence.CompliancePersistence;
+import com.tamarix.compliance.service.persistence.MatrixPersistence;
 
 import java.io.Serializable;
 
@@ -523,6 +524,46 @@ public abstract class ComplianceLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the matrix local service.
+	 *
+	 * @return the matrix local service
+	 */
+	public com.tamarix.compliance.service.MatrixLocalService
+		getMatrixLocalService() {
+
+		return matrixLocalService;
+	}
+
+	/**
+	 * Sets the matrix local service.
+	 *
+	 * @param matrixLocalService the matrix local service
+	 */
+	public void setMatrixLocalService(
+		com.tamarix.compliance.service.MatrixLocalService matrixLocalService) {
+
+		this.matrixLocalService = matrixLocalService;
+	}
+
+	/**
+	 * Returns the matrix persistence.
+	 *
+	 * @return the matrix persistence
+	 */
+	public MatrixPersistence getMatrixPersistence() {
+		return matrixPersistence;
+	}
+
+	/**
+	 * Sets the matrix persistence.
+	 *
+	 * @param matrixPersistence the matrix persistence
+	 */
+	public void setMatrixPersistence(MatrixPersistence matrixPersistence) {
+		this.matrixPersistence = matrixPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -711,6 +752,15 @@ public abstract class ComplianceLocalServiceBaseImpl
 
 	@BeanReference(type = ComplianceFinder.class)
 	protected ComplianceFinder complianceFinder;
+
+	@BeanReference(
+		type = com.tamarix.compliance.service.MatrixLocalService.class
+	)
+	protected com.tamarix.compliance.service.MatrixLocalService
+		matrixLocalService;
+
+	@BeanReference(type = MatrixPersistence.class)
+	protected MatrixPersistence matrixPersistence;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class

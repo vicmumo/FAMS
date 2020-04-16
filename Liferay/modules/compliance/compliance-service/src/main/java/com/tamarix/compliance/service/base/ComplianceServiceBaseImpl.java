@@ -31,6 +31,7 @@ import com.tamarix.compliance.model.Compliance;
 import com.tamarix.compliance.service.ComplianceService;
 import com.tamarix.compliance.service.persistence.ComplianceFinder;
 import com.tamarix.compliance.service.persistence.CompliancePersistence;
+import com.tamarix.compliance.service.persistence.MatrixPersistence;
 
 import javax.sql.DataSource;
 
@@ -132,6 +133,66 @@ public abstract class ComplianceServiceBaseImpl
 	 */
 	public void setComplianceFinder(ComplianceFinder complianceFinder) {
 		this.complianceFinder = complianceFinder;
+	}
+
+	/**
+	 * Returns the matrix local service.
+	 *
+	 * @return the matrix local service
+	 */
+	public com.tamarix.compliance.service.MatrixLocalService
+		getMatrixLocalService() {
+
+		return matrixLocalService;
+	}
+
+	/**
+	 * Sets the matrix local service.
+	 *
+	 * @param matrixLocalService the matrix local service
+	 */
+	public void setMatrixLocalService(
+		com.tamarix.compliance.service.MatrixLocalService matrixLocalService) {
+
+		this.matrixLocalService = matrixLocalService;
+	}
+
+	/**
+	 * Returns the matrix remote service.
+	 *
+	 * @return the matrix remote service
+	 */
+	public com.tamarix.compliance.service.MatrixService getMatrixService() {
+		return matrixService;
+	}
+
+	/**
+	 * Sets the matrix remote service.
+	 *
+	 * @param matrixService the matrix remote service
+	 */
+	public void setMatrixService(
+		com.tamarix.compliance.service.MatrixService matrixService) {
+
+		this.matrixService = matrixService;
+	}
+
+	/**
+	 * Returns the matrix persistence.
+	 *
+	 * @return the matrix persistence
+	 */
+	public MatrixPersistence getMatrixPersistence() {
+		return matrixPersistence;
+	}
+
+	/**
+	 * Sets the matrix persistence.
+	 *
+	 * @param matrixPersistence the matrix persistence
+	 */
+	public void setMatrixPersistence(MatrixPersistence matrixPersistence) {
+		this.matrixPersistence = matrixPersistence;
 	}
 
 	/**
@@ -367,6 +428,18 @@ public abstract class ComplianceServiceBaseImpl
 
 	@BeanReference(type = ComplianceFinder.class)
 	protected ComplianceFinder complianceFinder;
+
+	@BeanReference(
+		type = com.tamarix.compliance.service.MatrixLocalService.class
+	)
+	protected com.tamarix.compliance.service.MatrixLocalService
+		matrixLocalService;
+
+	@BeanReference(type = com.tamarix.compliance.service.MatrixService.class)
+	protected com.tamarix.compliance.service.MatrixService matrixService;
+
+	@BeanReference(type = MatrixPersistence.class)
+	protected MatrixPersistence matrixPersistence;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class

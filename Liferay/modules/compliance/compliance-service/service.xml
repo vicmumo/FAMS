@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
 
-<service-builder  package-path="com.tamarix.compliance">
+<service-builder package-path="com.tamarix.compliance">
 	<namespace>Compliance</namespace>
-	<entity local-service="true" name="Compliance" remote-service="true" uuid="true">
+	<entity local-service="true" name="Compliance"
+		remote-service="true" uuid="true">
 		<!-- PK fields -->
 		<column name="complianceId" primary="true" type="long" />
 		<!-- Group instance -->
@@ -11,7 +12,7 @@
 		<!-- Audit fields -->
 		<column name="companyId" type="long" />
 		<column name="createdby" type="long" />
-        <column name="modifiedby" type="String" />
+		<column name="modifiedby" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 		<!-- Other fields -->
@@ -23,7 +24,7 @@
 		<column name="terminationCode" type="String" />
 		<column name="formerBranch" type="String" />
 
-		<!-- New fileds for Transfers and other Apps -->		
+		<!-- New fileds for Transfers and other Apps -->
 		<column name="contractId" type="String" />
 		<column name="entityId" type="String" />
 		<column name="approvalDate" type="String" />
@@ -40,15 +41,40 @@
 		<column name="historyStartDate" type="String" />
 		<column name="oldOrgId" type="String" />
 		<column name="oldPositionId" type="String" />
-		<column name="contractEffectiveEndDate" type="String" />	
+		<column name="contractEffectiveEndDate" type="String" />
 		<column name="applicationTye" type="String" />
 		<column name="applicationCategory" type="String" />
-		<!--  End of New fields  -->
-		
+		<!-- End of New fields -->
+
 		<!-- Workflow fields -->
-        <!-- Resource -->
-        <column name="firstapprover" type="String"></column> <!--  approved or declined -->
-        <column name="secondapprover" type="String"></column> <!--  approved or declined -->      
-        
+		<!-- Resource -->
+		<column name="firstapprover" type="String"></column> <!-- approved or declined -->
+		<column name="secondapprover" type="String"></column> <!-- approved or declined -->
+
+	</entity>
+	<entity local-service="true" name="Matrix" remote-service="true"
+		uuid="true">
+		<!-- PK fields -->
+		<column name="applicationId" primary="true" type="long" />
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="createdby" type="long" />
+		<column name="modifiedby" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<!-- Other fields -->
+		<column name="applicationType" type="String" />
+		<column name="applicationCategory" type="String" />
+		<column name="responsibleActor" type="String" />
+		<column name="responsibleActor2" type="String" />
+		<column name="backupActor" type="String" />
+		<column name="backupActor2" type="String" />
+		<column name="approver" type="String" />
+		<column name="approver2" type="String" />
+		<column name="backupApprover" type="String" />
+		<column name="backupApprover2" type="String" />
+
 	</entity>
 </service-builder>

@@ -39,4 +39,24 @@
 		<field name="firstapprover" type="String" />
 		<field name="secondapprover" type="String" />
 	</model>
+	<model name="com.tamarix.compliance.model.Matrix">
+		<field name="uuid" type="String" />
+		<field name="applicationId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createdby" type="long" />
+		<field name="modifiedby" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="applicationType" type="String" />
+		<field name="applicationCategory" type="String" />
+		<field name="responsibleActor" type="String" />
+		<field name="responsibleActor2" type="String" />
+		<field name="backupActor" type="String" />
+		<field name="backupActor2" type="String" />
+		<field name="approver" type="String" />
+		<field name="approver2" type="String" />
+		<field name="backupApprover" type="String" />
+		<field name="backupApprover2" type="String" />
+	</model>
 </model-hints>

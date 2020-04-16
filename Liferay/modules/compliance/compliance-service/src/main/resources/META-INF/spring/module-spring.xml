@@ -11,4 +11,7 @@
 	<bean class="com.tamarix.compliance.service.impl.ComplianceServiceImpl" id="com.tamarix.compliance.service.ComplianceService" />
 	<bean class="com.tamarix.compliance.service.persistence.impl.CompliancePersistenceImpl" id="com.tamarix.compliance.service.persistence.CompliancePersistence" parent="basePersistence" />
 	<bean class="com.tamarix.compliance.service.persistence.impl.ComplianceFinderImpl" id="com.tamarix.compliance.service.persistence.ComplianceFinder" parent="basePersistence" />
+	<bean class="com.tamarix.compliance.service.impl.MatrixLocalServiceImpl" id="com.tamarix.compliance.service.MatrixLocalService" />
+	<bean class="com.tamarix.compliance.service.impl.MatrixServiceImpl" id="com.tamarix.compliance.service.MatrixService" />
+	<bean class="com.tamarix.compliance.service.persistence.impl.MatrixPersistenceImpl" id="com.tamarix.compliance.service.persistence.MatrixPersistence" parent="basePersistence" />
 </beans>

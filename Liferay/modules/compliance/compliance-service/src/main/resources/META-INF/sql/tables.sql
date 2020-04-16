@@ -36,3 +36,24 @@ create table Compliance_Compliance (
 	firstapprover VARCHAR(75) null,
 	secondapprover VARCHAR(75) null
 );
+
+create table Compliance_Matrix (
+	uuid_ VARCHAR(75) null,
+	applicationId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	createdby LONG,
+	modifiedby VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	applicationType VARCHAR(75) null,
+	applicationCategory VARCHAR(75) null,
+	responsibleActor VARCHAR(75) null,
+	responsibleActor2 VARCHAR(75) null,
+	backupActor VARCHAR(75) null,
+	backupActor2 VARCHAR(75) null,
+	approver VARCHAR(75) null,
+	approver2 VARCHAR(75) null,
+	backupApprover VARCHAR(75) null,
+	backupApprover2 VARCHAR(75) null
+);

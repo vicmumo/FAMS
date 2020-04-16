@@ -3,6 +3,7 @@
 
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="com.tamarix.compliance.model.Compliance" />
+	<import class="com.tamarix.compliance.model.Matrix" />
 	<class name="com.tamarix.compliance.model.impl.ComplianceImpl" table="Compliance_Compliance">
 		<id name="complianceId" type="long">
 			<generator class="assigned" />
@@ -42,5 +43,27 @@
 		<property name="applicationCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="firstapprover" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="secondapprover" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.tamarix.compliance.model.impl.MatrixImpl" table="Compliance_Matrix">
+		<id name="applicationId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createdby" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedby" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="applicationType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="responsibleActor" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="responsibleActor2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="backupActor" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="backupActor2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="approver" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="approver2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="backupApprover" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="backupApprover2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>

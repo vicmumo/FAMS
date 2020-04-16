@@ -229,4 +229,5 @@ public class CompliancePortlet extends MVCPortlet {
 			log.error(e.getMessage(), e);
 		}
 	}
+
 }
