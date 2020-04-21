@@ -4526,3 +4526,489 @@ Caused by: org.gradle.api.internal.tasks.compile.CompilationFailedException: Com
 
 !ENTRY com.liferay.ide.server.core 4 0 2020-04-16 09:26:40.766
 !MESSAGE Could not create output jar
+!SESSION 2020-04-17 09:06:42.768 -----------------------------------------------
+eclipse.buildId=4.15.0.I20200305-0155
+java.version=1.8.0_241
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2020-04-17 09:10:02.708
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\USER'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2020-04-20 19:02:46.128 -----------------------------------------------
+eclipse.buildId=4.15.0.I20200305-0155
+java.version=1.8.0_241
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2020-04-20 19:06:00.802
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\USER'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.apache.ivyde.eclipse 1 0 2020-04-20 19:11:01.622
+!MESSAGE starting IvyDE plugin
+
+!ENTRY org.apache.ivyde.eclipse 1 0 2020-04-20 19:11:01.798
+!MESSAGE IvyDE plugin started
+
+!ENTRY org.eclipse.jface 2 0 2020-04-20 19:11:36.745
+!MESSAGE Ignored reentrant call while viewer is busy. This is only logged once per viewer instance, but similar calls will still be ignored.
+!STACK 0
+java.lang.RuntimeException
+	at org.eclipse.jface.viewers.ColumnViewer.checkBusy(ColumnViewer.java:764)
+	at org.eclipse.jface.viewers.ColumnViewer.update(ColumnViewer.java:543)
+	at org.eclipse.ui.navigator.CommonViewer.update(CommonViewer.java:512)
+	at org.eclipse.jface.viewers.StructuredViewer.update(StructuredViewer.java:1976)
+	at org.eclipse.ui.internal.navigator.resources.nested.NestedProjectsLabelProvider.lambda$2(NestedProjectsLabelProvider.java:87)
+	at java.util.concurrent.CompletableFuture.uniAccept(Unknown Source)
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(Unknown Source)
+	at java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source)
+	at java.util.concurrent.CompletableFuture$AsyncSupply.exec(Unknown Source)
+	at java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(Unknown Source)
+	at java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+	at java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+
+!ENTRY org.eclipse.jdt.core 4 4 2020-04-20 19:17:30.685
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package com.tamarix.compliance.portlet;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.ProcessAction;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.counter.kernel.service.CounterLocalService;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.tamarix.compliance.constants.CompliancePortletKeys;
+import com.tamarix.compliance.model.Compliance;
+import com.tamarix.compliance.service.ComplianceLocalService;
+
+/**
+ * @author VicMo
+ */
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.header-portlet-css=/css/main.css", "com.liferay.portlet.instanceable=true",
+		"javax.portlet.display-name=Compliance", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/view.jsp", "javax.portlet.name=" + CompliancePortletKeys.COMPLIANCE,
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+public class CompliancePortlet extends MVCPortlet {
+	
+	public void getService()
+	string url="http://10.10.4.214:9001/ords/apex_ebs_extension/fams/fams/complianceapprovals";
+	private Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
+	@Reference
+	CounterLocalService counterLocalService;
+
+	@Reference
+	ComplianceLocalService complianceLocalService;
+
+	@ProcessAction(name = "addCompliance")
+	public void addCompliance(ActionRequest actionRequest, ActionResponse actionResponse) {
+		long complianceId = counterLocalService.increment(Compliance.class.getName());
+
+		String firstName = ParamUtil.getString(actionRequest, "firstName");
+		String lastName = ParamUtil.getString(actionRequest, "lastName");
+		String branchName = ParamUtil.getString(actionRequest, "branchName");
+		String payrollNo = ParamUtil.getString(actionRequest, "payrollNo");
+		String terminationReason = ParamUtil.getString(actionRequest, "terminationReason");
+		String terminationCode = ParamUtil.getString(actionRequest, "terminationCode");
+		String formerBranch = ParamUtil.getString(actionRequest, "formerBranch");
+
+//		String contractId = ParamUtil.getString(actionRequest, "contractId");
+//		String entityId = ParamUtil.getString(actionRequest, "entityId");
+//		String approvalDate = ParamUtil.getString(actionRequest, "approvalDate");
+//		String comments = ParamUtil.getString(actionRequest, "comments");
+//		String approverContractNumber = ParamUtil.getString(actionRequest, "approverContractNumber");
+//		String agentVerdict = ParamUtil.getString(actionRequest, "agentVerdict");
+//		String agentAction = ParamUtil.getString(actionRequest, "agentAction");
+//		String processedFlag = ParamUtil.getString(actionRequest, "processedFlag");
+//		String errorReason = ParamUtil.getString(actionRequest, "errorReason");
+//		String assignmentStatus = ParamUtil.getString(actionRequest, "assignmentStatus");
+//		String capacity = ParamUtil.getString(actionRequest, "capacity");
+//		String positionId = ParamUtil.getString(actionRequest, "positionId");
+//		String orgId = ParamUtil.getString(actionRequest, "orgId");
+//		String historyStartDate = ParamUtil.getString(actionRequest, "historyStartDate");
+//		String oldOrgId = ParamUtil.getString(actionRequest, "oldOrgId");
+//		String oldPositionId = ParamUtil.getString(actionRequest, "oldPositionId");
+//		String contractEffectiveEndDate = ParamUtil.getString(actionRequest, "contractEffectiveEndDate");
+//		String applicationTye = ParamUtil.getString(actionRequest, "applicationTye");
+//		String applicationCategory = ParamUtil.getString(actionRequest, "applicationCategory");
+		// test with this if it will show
+
+		Compliance compliance = complianceLocalService.createCompliance(complianceId);
+
+		compliance.setComplianceId(complianceId);
+		compliance.setFirstName(firstName);
+		compliance.setLastName(lastName);
+		compliance.setBranchName(branchName);
+		compliance.setPayrollNo(payrollNo);
+		compliance.setTerminationReason(terminationReason);
+		compliance.setTerminationCode(terminationCode);
+		compliance.setFormerBranch(formerBranch);
+
+//		compliance.setContractId(contractId);
+//		compliance.setEntityId(entityId);
+//		compliance.setApprovalDate(approvalDate);
+//		compliance.setComments(comments);
+//		compliance.setApproverContractNumber(approverContractNumber);
+//		compliance.setAgentVerdict(agentVerdict);
+//		compliance.setAgentAction(agentAction);
+//		compliance.setProcessedFlag(processedFlag);
+//		compliance.setErrorReason(errorReason);
+//		compliance.setAssignmentStatus(assignmentStatus);
+//		compliance.setCapacity(capacity);
+//		compliance.setPositionId(positionId);
+//		compliance.setOrgId(orgId);
+//		compliance.setHistoryStartDate(historyStartDate);
+//		compliance.setOldOrgId(oldOrgId);
+//		compliance.setOldPositionId(oldPositionId);
+//		compliance.setContractEffectiveEndDate(contractEffectiveEndDate);
+//		compliance.setApplicationTye(applicationTye);
+//		compliance.setApplicationCategory(applicationCategory);
+
+		complianceLocalService.addCompliance(compliance);
+	}
+
+	@Override
+	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
+			throws IOException, PortletException {
+		// TODO Auto-generated method stub
+		// This is the one for all records
+		List<Compliance> complianceList = complianceLocalService.getCompliances(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		renderRequest.setAttribute("complianceList", complianceList);
+		// this is the one for first-stage-validated.jsp
+		List<Compliance> firstvalidatedList1 = complianceLocalService.getCompliances(QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS);
+		renderRequest.setAttribute("firstvalidatedList1", firstvalidatedList1);//
+		super.render(renderRequest, renderResponse);
+	}
+
+	@ProcessAction(name = "updateCompliance")
+	public void updateCompliance(ActionRequest actionRequest, ActionResponse actionResponse) {
+		long complianceId = ParamUtil.getLong(actionRequest, "complianceId", GetterUtil.DEFAULT_LONG);
+
+		String firstName = ParamUtil.getString(actionRequest, "firstName", GetterUtil.DEFAULT_STRING);
+		String lastName = ParamUtil.getString(actionRequest, "lastName", GetterUtil.DEFAULT_STRING);
+		String branchName = ParamUtil.getString(actionRequest, "branchName", GetterUtil.DEFAULT_STRING);
+		String payrollNo = ParamUtil.getString(actionRequest, "payrollNo", GetterUtil.DEFAULT_STRING);
+		String terminationReason = ParamUtil.getString(actionRequest, "terminationReason", GetterUtil.DEFAULT_STRING);
+		String terminationCode = ParamUtil.getString(actionRequest, "terminationCode", GetterUtil.DEFAULT_STRING);
+		String formerBranch = ParamUtil.getString(actionRequest, "formerBranch", GetterUtil.DEFAULT_STRING);
+
+		/*
+		 * String contractId = ParamUtil.getString(actionRequest, "contractId",
+		 * GetterUtil.DEFAULT_STRING); String entityId =
+		 * ParamUtil.getString(actionRequest, "entityId", GetterUtil.DEFAULT_STRING);
+		 * String approvalDate = ParamUtil.getString(actionRequest, "approvalDate",
+		 * GetterUtil.DEFAULT_STRING); String comments =
+		 * ParamUtil.getString(actionRequest, "comments", GetterUtil.DEFAULT_STRING);
+		 * String approverContractNumber = ParamUtil.getString(actionRequest,
+		 * "pproverContractNumber", GetterUtil.DEFAULT_STRING); String agentVerdict =
+		 * ParamUtil.getString(actionRequest, "agentVerdict",
+		 * GetterUtil.DEFAULT_STRING); String agentAction =
+		 * ParamUtil.getString(actionRequest, "agentAction", GetterUtil.DEFAULT_STRING);
+		 * String processedFlag = ParamUtil.getString(actionRequest, "processedFlag",
+		 * GetterUtil.DEFAULT_STRING); String errorReason =
+		 * ParamUtil.getString(actionRequest, "errorReason", GetterUtil.DEFAULT_STRING);
+		 * String assignmentStatus = ParamUtil.getString(actionRequest,
+		 * "assignmentStatus", GetterUtil.DEFAULT_STRING); String capacity =
+		 * ParamUtil.getString(actionRequest, "capacity", GetterUtil.DEFAULT_STRING);
+		 * String positionId = ParamUtil.getString(actionRequest, "positionId",
+		 * GetterUtil.DEFAULT_STRING); String orgId = ParamUtil.getString(actionRequest,
+		 * "orgId ", GetterUtil.DEFAULT_STRING); String historyStartDate =
+		 * ParamUtil.getString(actionRequest, "historyStartDate",
+		 * GetterUtil.DEFAULT_STRING); String oldOrgId =
+		 * ParamUtil.getString(actionRequest, "oldOrgId ", GetterUtil.DEFAULT_STRING);
+		 * String oldPositionId = ParamUtil.getString(actionRequest, "oldPositionId",
+		 * GetterUtil.DEFAULT_STRING); String contractEffectiveEndDate =
+		 * ParamUtil.getString(actionRequest, "contractEffectiveEndDate",
+		 * GetterUtil.DEFAULT_STRING); String applicationTye =
+		 * ParamUtil.getString(actionRequest, "applicationTye",
+		 * GetterUtil.DEFAULT_STRING); String applicationCategory =
+		 * ParamUtil.getString(actionRequest, "applicationCategory",
+		 * GetterUtil.DEFAULT_STRING);
+		 */
+		/// approval 1st
+		String firstapprover = ParamUtil.getString(actionRequest, "firstapprover", GetterUtil.DEFAULT_STRING);
+
+		// second approver
+		String secondapprover = ParamUtil.getString(actionRequest, "secondapprover", GetterUtil.DEFAULT_STRING);
+
+		Compliance compliance = null;
+		try {
+			compliance = complianceLocalService.getCompliance(complianceId);
+		} catch (Exception e) {
+			log.error(e.getCause(), e);
+		}
+
+		if (Validator.isNotNull(compliance)) {
+			compliance.setFirstName(firstName);
+			compliance.setLastName(lastName);
+			compliance.setBranchName(branchName);
+			compliance.setPayrollNo(payrollNo);
+			compliance.setTerminationReason(terminationReason);
+			compliance.setTerminationCode(terminationCode);
+			compliance.setFormerBranch(formerBranch);
+
+			/*
+			 * compliance.setContractId(contractId); compliance.setEntityId(entityId);
+			 * compliance.setApprovalDate(approvalDate); compliance.setComments(comments );
+			 * compliance.setApproverContractNumber(approverContractNumber);
+			 * compliance.setAgentVerdict(agentVerdict);
+			 * compliance.setAgentAction(agentAction);
+			 * compliance.setProcessedFlag(processedFlag);
+			 * compliance.setErrorReason(errorReason);
+			 * compliance.setAssignmentStatus(assignmentStatus);
+			 * compliance.setCapacity(capacity); compliance.setPositionId(positionId);
+			 * compliance.setOrgId(orgId); compliance.setHistoryStartDate(historyStartDate);
+			 * compliance.setOldOrgId(oldOrgId );
+			 * compliance.setOldPositionId(oldPositionId);
+			 * compliance.setContractEffectiveEndDate(contractEffectiveEndDate);
+			 * compliance.setApplicationTye(applicationTye);
+			 * compliance.setApplicationCategory(applicationCategory);
+			 */
+
+			// first approver
+			compliance.setFirstapprover(firstapprover);
+
+			// Second approver
+			compliance.setSecondapprover(secondapprover);
+
+			complianceLocalService.updateCompliance(compliance);
+		}
+	}
+
+	@ProcessAction(name = "deleteCompliance")
+	public void deleteCompliance(ActionRequest actionRequest, ActionResponse actionResponse) {
+		long complianceId = ParamUtil.getLong(actionRequest, "complianceId", GetterUtil.DEFAULT_LONG);
+		try {
+			complianceLocalService.deleteCompliance(complianceId);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
+
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3061)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:645)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:205)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3116)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1419)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:426)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:268)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1138)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:736)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:802)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1315)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2020-04-20 19:17:30.768
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3061)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:645)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:205)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3116)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1419)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:426)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:268)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1138)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:736)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:802)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1315)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2020-04-20 19:17:30.776
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3061)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:645)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:205)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3116)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1419)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:426)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:268)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1138)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:736)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:802)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1315)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.wst.server.core 4 0 2020-04-20 19:30:48.290
+!MESSAGE Server Liferay was unable to start within 900 seconds. If the server requires more time, try increasing the timeout in the server editor.
+
+!ENTRY org.eclipse.wst.xml.search.editor 4 0 2020-04-20 19:37:36.911
+!MESSAGE IFile parameter can not be null
+!STACK 0
+org.eclipse.wst.sse.core.internal.util.Assert$AssertionFailedException: IFile parameter can not be null
+	at org.eclipse.wst.sse.core.internal.util.Assert.isNotNull(Assert.java:126)
+	at org.eclipse.wst.sse.core.internal.model.ModelManagerImpl.getExistingModelForRead(ModelManagerImpl.java:1289)
+	at org.eclipse.wst.xml.search.editor.validation.AbstractValidator.validate(AbstractValidator.java:114)
+	at org.eclipse.wst.xml.search.editor.validation.AbstractValidator.validate(AbstractValidator.java:106)
+	at org.eclipse.wst.sse.ui.internal.reconcile.validator.ReconcileStepForValidator.validate(ReconcileStepForValidator.java:333)
+	at org.eclipse.wst.sse.ui.internal.reconcile.validator.ReconcileStepForValidator.reconcileModel(ReconcileStepForValidator.java:207)
+	at org.eclipse.jface.text.reconciler.AbstractReconcileStep.reconcile(AbstractReconcileStep.java:92)
+	at org.eclipse.wst.sse.ui.internal.reconcile.validator.ValidatorStrategy.reconcile(ValidatorStrategy.java:270)
+	at org.eclipse.wst.sse.ui.internal.reconcile.DocumentRegionProcessor.process(DocumentRegionProcessor.java:323)
+	at org.eclipse.wst.sse.ui.internal.reconcile.StructuredRegionProcessor.process(StructuredRegionProcessor.java:260)
+	at org.eclipse.wst.sse.ui.internal.reconcile.DirtyRegionProcessor$BackgroundThread.run(DirtyRegionProcessor.java:694)
+
+!ENTRY org.eclipse.wst.server.core 4 0 2020-04-20 19:46:01.987
+!MESSAGE Server Liferay was unable to start within 900 seconds. If the server requires more time, try increasing the timeout in the server editor.
+
+!ENTRY org.eclipse.wst.server.core 4 0 2020-04-20 20:08:47.840
+!MESSAGE Server Liferay was unable to start within 900 seconds. If the server requires more time, try increasing the timeout in the server editor.
+!SESSION 2020-04-21 08:08:56.065 -----------------------------------------------
+eclipse.buildId=4.15.0.I20200305-0155
+java.version=1.8.0_241
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.apache.ivyde.eclipse 1 0 2020-04-21 08:10:31.255
+!MESSAGE starting IvyDE plugin
+
+!ENTRY org.apache.ivyde.eclipse 1 0 2020-04-21 08:10:32.864
+!MESSAGE IvyDE plugin started
+
+!ENTRY org.eclipse.egit.ui 2 0 2020-04-21 08:12:18.723
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\USER'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.jface.text 4 0 2020-04-21 08:16:37.340
+!MESSAGE Unexpected runtime error while computing a text hover
+!STACK 0
+org.eclipse.jdt.internal.compiler.problem.AbortCompilation: Pb(324) The type aQute.bnd.annotation.ProviderType cannot be resolved. It is indirectly referenced from required .class files
+	at org.eclipse.jdt.internal.compiler.problem.ProblemHandler.handle(ProblemHandler.java:162)
+	at org.eclipse.jdt.internal.compiler.problem.ProblemHandler.handle(ProblemHandler.java:229)
+	at org.eclipse.jdt.internal.compiler.problem.ProblemReporter.handle(ProblemReporter.java:2605)
+	at org.eclipse.jdt.internal.compiler.problem.ProblemReporter.isClassPathCorrect(ProblemReporter.java:5061)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:123)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:243)
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.getTypeOrPackage(PackageBinding.java:252)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.findImport(CompilationUnitScope.java:547)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.findSingleImport(CompilationUnitScope.java:619)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.resolveSingleImport(CompilationUnitScope.java:842)
+	at org.eclipse.jdt.internal.compiler.lookup.Scope.getTypeOrPackage(Scope.java:3348)
+	at org.eclipse.jdt.internal.compiler.lookup.Scope.getType(Scope.java:3079)
+	at org.eclipse.jdt.internal.compiler.ast.SingleTypeReference.getTypeBinding(SingleTypeReference.java:57)
+	at org.eclipse.jdt.internal.compiler.ast.TypeReference.internalResolveType(TypeReference.java:528)
+	at org.eclipse.jdt.internal.compiler.ast.TypeReference.resolveType(TypeReference.java:629)
+	at org.eclipse.jdt.internal.compiler.ast.TypeReference.resolveType(TypeReference.java:625)
+	at org.eclipse.jdt.internal.compiler.ast.TypeReference.resolveType(TypeReference.java:621)
+	at org.eclipse.jdt.internal.compiler.ast.Annotation.resolveType(Annotation.java:876)
+	at org.eclipse.jdt.internal.compiler.ast.ASTNode.resolveAnnotations(ASTNode.java:888)
+	at org.eclipse.jdt.internal.compiler.ast.ASTNode.resolveAnnotations(ASTNode.java:747)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.initAnnotationTagBits(SourceTypeBinding.java:1059)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.getAnnotationTagBits(SourceTypeBinding.java:1049)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.retrieveAnnotationHolder(SourceTypeBinding.java:2296)
+	at org.eclipse.jdt.internal.compiler.lookup.ReferenceBinding.retrieveAnnotations(ReferenceBinding.java:1845)
+	at org.eclipse.jdt.internal.compiler.lookup.ReferenceBinding.getAnnotations(ReferenceBinding.java:1052)
+	at org.eclipse.jdt.core.dom.TypeBinding.getAnnotations(TypeBinding.java:122)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.getAnnotations(JavadocHover.java:1192)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.addAnnotations(JavadocHover.java:1149)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.getHoverInfo(JavadocHover.java:757)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.internalGetHoverInfo(JavadocHover.java:678)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.getHoverInfo2(JavadocHover.java:670)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:165)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:132)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:89)
+	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)
+
+!ENTRY org.eclipse.jface 2 0 2020-04-21 08:18:08.790
+!MESSAGE Ignored reentrant call while viewer is busy. This is only logged once per viewer instance, but similar calls will still be ignored.
+!STACK 0
+java.lang.RuntimeException
+	at org.eclipse.jface.viewers.ColumnViewer.checkBusy(ColumnViewer.java:764)
+	at org.eclipse.jface.viewers.ColumnViewer.update(ColumnViewer.java:543)
+	at org.eclipse.ui.navigator.CommonViewer.update(CommonViewer.java:515)
+	at org.eclipse.jface.viewers.StructuredViewer.update(StructuredViewer.java:1976)
+	at org.eclipse.ui.internal.navigator.resources.nested.NestedProjectsLabelProvider.lambda$2(NestedProjectsLabelProvider.java:87)
+	at java.util.concurrent.CompletableFuture.uniAccept(Unknown Source)
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(Unknown Source)
+	at java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source)
+	at java.util.concurrent.CompletableFuture$AsyncSupply.exec(Unknown Source)
+	at java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(Unknown Source)
+	at java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+	at java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)

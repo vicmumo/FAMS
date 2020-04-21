@@ -4,4 +4,5 @@
 <fullyQualifiedTypeName name="com.tamarix.compliance.service.ComplianceLocalService"/>
 <fullyQualifiedTypeName name="com.liferay.portal.kernel.exception.SystemException"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
 </qualifiedTypeNameHistroy>

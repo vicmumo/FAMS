@@ -36,6 +36,34 @@ import com.tamarix.compliance.service.ComplianceLocalService;
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class CompliancePortlet extends MVCPortlet {
+//Service 1
+//	public void getService() {
+//		//creating the GET Request
+////		String url = "http://10.10.4.214:9001/ords/apex_ebs_extension/fams/fams/complianceapprovals";
+////		HttpGet httpGet = new HttpGet(url);
+//		try {
+//
+//            URL url = new URL("http://10.10.4.214:9001/ords/apex_ebs_extension/fams/fams/complianceapprovals");
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            conn.setRequestMethod("GET");
+//            conn.setRequestProperty("Accept", "application/json");
+//            if (conn.getResponseCode() != 200) {
+//                throw new RuntimeException("Failed : HTTP Error code : "
+//                        + conn.getResponseCode());
+//            }
+//            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+//            BufferedReader br = new BufferedReader(in);
+//            String output;
+//            while ((output = br.readLine()) != null) {
+//                System.out.println(output);
+//            }
+//            conn.disconnect();
+//
+//        } catch (Exception e) {
+//            System.out.println("Exception in NetClientGet:- " + e);
+//        }
+//	}
+
 	private Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	@Reference
